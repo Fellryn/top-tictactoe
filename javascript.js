@@ -109,6 +109,7 @@ const gameController = (function() {
         domInteraction.render();
         gameIsOver = false;
         domInteraction.updatePlayerBoards();
+        domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name : player2.name}'s turn!`)
     }
 
     function getPlayerOne() {
