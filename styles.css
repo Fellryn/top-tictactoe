@@ -20,6 +20,10 @@ h1 {
     border: 1px solid black;
 }
 
+#gameArea {
+    display: flex;
+}
+
 dialog {
     top: 200px;
     border: none;
