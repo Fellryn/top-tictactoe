@@ -39,6 +39,8 @@ const gameController = (function() {
           currentPlayer === player1 ?
            currentPlayer = player2 :
             currentPlayer = player1;
+
+        domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name + "(x)" : player2.name + "(o)"}'s turn!`)
         turns++;
     }
 
@@ -55,7 +57,7 @@ const gameController = (function() {
             gameBoard.gameBoardArr[pos] = currentPlayer === player1 ? "x" : "o";
         } 
         else {
-            console.log("This spot is taken, choose another!");
+            domInteraction.showPopover("This square is filled, choose another!");
             return;
         }
         checkWinState();
@@ -133,13 +135,15 @@ const domInteraction = (function() {
     let restartButton;
     let playerOneBoard;
     let playerTwoBoard;
+    let popover;
 
     function cacheDom() {
         gameBoardContainer = document.querySelector("#gameBoardContainer");
         form = document.querySelector("form");
         restartButton = document.querySelector("#restartButton");
         playerOneBoard = document.querySelector("#playerOneBoard");
-        playerTwoBoard = document.querySelector("#playerTwoBoard")
+        playerTwoBoard = document.querySelector("#playerTwoBoard");
+        popover = document.querySelector("#popover");
     }
 
     function render() {
@@ -147,6 +151,14 @@ const domInteraction = (function() {
         for (let i = 0; i < gameBoard.gameBoardArr.length; i++) {
             gameBoardContainer.innerHTML += `<div data-id="${i}" class="cell">${gameBoard.gameBoardArr[i]}</div>`;
         }
+    }
+
+    function showPopover(text) {
+        popover.classList.remove("popover-hidden")
+        popover.textContent = text;
+        setTimeout(() => {
+            popover.classList.add("popover-hidden")
+        }, 1000);
     }
 
     function updatePlayerBoards() {
@@ -211,7 +223,8 @@ const domInteraction = (function() {
         render,
         bindGameBoard,
         setRestartButton,
-        updatePlayerBoards
+        updatePlayerBoards,
+        showPopover
     }
 })();
 
