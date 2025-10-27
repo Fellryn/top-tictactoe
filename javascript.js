@@ -84,12 +84,18 @@ const gameController = (function() {
         }
 
         if (winner !== undefined) {
-            console.log(`The winner is: ${winner === "x" ? "Player one!" : "Player two!"}`);
+            if (winner === "x") {
+                player1.score++;
+            } else {
+                player2.score++;
+            }
+            // console.log(`The winner is: ${winner === "x" ? "Player one!" : "Player two!"}`);
             gameIsOver = true;
             domInteraction.setRestartButton(true);
+            domInteraction.updatePlayerBoards();
         } else if (turns > 7) {
             console.log("Draw!")
-            gameIsOver = true();
+            gameIsOver = true;
             domInteraction.setRestartButton(true);
         }
     }
