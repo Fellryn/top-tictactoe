@@ -40,7 +40,7 @@ const gameController = (function() {
            currentPlayer = player2 :
             currentPlayer = player1;
 
-        domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name + "(x)" : player2.name + "(o)"}'s turn!`)
+        if (!gameIsOver) domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name : player2.name}'s turn!`)
         turns++;
     }
 
@@ -88,10 +88,11 @@ const gameController = (function() {
         if (winner !== undefined) {
             if (winner === "x") {
                 player1.score++;
+                domInteraction.showPopover(player1.name + " won!");
             } else {
                 player2.score++;
+                domInteraction.showPopover(player2.name + " won!");
             }
-            // console.log(`The winner is: ${winner === "x" ? "Player one!" : "Player two!"}`);
             gameIsOver = true;
             domInteraction.setRestartButton(true);
             domInteraction.updatePlayerBoards();
