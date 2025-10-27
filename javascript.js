@@ -86,30 +86,39 @@ const gameController = (function() {
         if (winner !== undefined) {
             console.log(`The winner is: ${winner === "x" ? "Player one!" : "Player two!"}`);
             gameIsOver = true;
+            domInteraction.setRestartButton(true);
         } else if (turns > 7) {
             console.log("Draw!")
             gameIsOver = true();
+            domInteraction.setRestartButton(true);
         }
     }
 
     function createNewGame() {
         turns = 0;
         gameBoard.resetBoardState();
+        domInteraction.render();
+        gameIsOver = false;
     }
 
     return {
         setPlayerNames,
-        placePiece
+        placePiece,
+        createNewGame
     }
 })();
+
+
 
 const domInteraction = (function() {
     let gameBoardContainer;
     let form;
+    let restartButton;
 
     function cacheDom() {
         gameBoardContainer = document.querySelector("#gameBoardContainer");
         form = document.querySelector("form");
+        restartButton = document.querySelector("#restartButton");
     }
 
     function render() {
@@ -126,6 +135,21 @@ const domInteraction = (function() {
     // function cacheCells() {
     //     cells = gameBoardContainer.querySelectorAll(".cell");
     // }
+
+    function setRestartButton(active) {
+        if (active === true) {
+            restartButton.classList.remove("hidden");
+        } else {
+            restartButton.classList.add("hidden");
+        }
+    }
+
+    function bindRestartButton () {
+        restartButton.addEventListener('click', () => {
+            gameController.createNewGame();
+            setRestartButton(false);
+        });
+    }
 
     function bindPlayerDialog () {
         form.addEventListener('submit', (e) => {
@@ -148,16 +172,16 @@ const domInteraction = (function() {
             gameController.placePiece(cell.dataset.id);
             render();
         });
-
-
     }
 
     cacheDom();
     bindPlayerDialog();
+    bindRestartButton();
 
     return {
         render,
-        bindGameBoard
+        bindGameBoard,
+        setRestartButton,
     }
 })();
 
