@@ -26,9 +26,9 @@ const gameController = (function() {
 
     console.log(gameBoard);
 
-    function getPlayerNames() {
-        player1 = createPlayer(prompt("player 1 name"), 1);
-        player2 = createPlayer(prompt("player 2 name"), 2);
+    function setPlayerNames(n1, n2) {
+        player1 = createPlayer(n1, 1);
+        player2 = createPlayer(n2, 2);
     }
 
     function playNextTurn() {
@@ -93,7 +93,7 @@ const gameController = (function() {
     }
 
     return {
-        getPlayerNames,
+        setPlayerNames,
         placePiece
     }
 })();
@@ -137,7 +137,6 @@ const domInteraction = (function() {
 
     return {
         render,
-        cells
     }
 })();
 
