@@ -40,7 +40,10 @@ const gameController = (function() {
            currentPlayer = player2 :
             currentPlayer = player1;
 
-        if (!gameIsOver) domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name : player2.name}'s turn!`)
+        if (!gameIsOver) {
+            domInteraction.highlightPlayer(currentPlayer === player1 ? 1 : 2);
+            domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name : player2.name}'s turn!`);
+        }
         turns++;
     }
 
@@ -62,7 +65,6 @@ const gameController = (function() {
         }
         checkWinState();
         playNextTurn();
-        console.log(gameBoard.gameBoardArr);
     }
 
     function checkWinState() {
@@ -89,9 +91,11 @@ const gameController = (function() {
             if (winner === "x") {
                 player1.score++;
                 domInteraction.showPopover(player1.name + " won!");
+                domInteraction.highlightPlayer(1);
             } else {
                 player2.score++;
                 domInteraction.showPopover(player2.name + " won!");
+                domInteraction.highlightPlayer(2);
             }
             gameIsOver = true;
             domInteraction.setRestartButton(true);
@@ -100,6 +104,7 @@ const gameController = (function() {
             console.log("Draw!")
             gameIsOver = true;
             domInteraction.setRestartButton(true);
+            domInteraction.highlightPlayer(-1);
         }
     }
 
@@ -110,6 +115,7 @@ const gameController = (function() {
         gameIsOver = false;
         domInteraction.updatePlayerBoards();
         domInteraction.showPopover(`It's ${currentPlayer === player1 ? player1.name : player2.name}'s turn!`)
+        domInteraction.highlightPlayer(currentPlayer === player1 ? 1 : 2);
     }
 
     function getPlayerOne() {
@@ -161,6 +167,23 @@ const domInteraction = (function() {
         setTimeout(() => {
             popover.classList.add("popover-hidden")
         }, 1000);
+    }
+
+    function highlightPlayer(player) {
+        if (player === -1) {
+            playerOneBoard.classList.remove("highlight");
+            playerTwoBoard.classList.remove("highlight");
+            return;
+        }
+
+        playerOneBoard.classList.remove("highlight");
+        playerTwoBoard.classList.remove("highlight");
+
+        if (player == 1) {
+            playerOneBoard.classList.add("highlight");
+        } else {
+            playerTwoBoard.classList.add("highlight");
+        }
     }
 
     function updatePlayerBoards() {
@@ -226,7 +249,8 @@ const domInteraction = (function() {
         bindGameBoard,
         setRestartButton,
         updatePlayerBoards,
-        showPopover
+        showPopover,
+        highlightPlayer
     }
 })();
 

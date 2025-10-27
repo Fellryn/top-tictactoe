@@ -45,6 +45,27 @@ h1 {
     text-align: center;
     padding: 0px 16px;
     max-width: 200px;
+
+}
+
+#playerOneBoard {
+    margin-right: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#playerTwoBoard {
+    margin-left: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.highlight {
+    background-color: rgb(188, 253, 232);
 }
 
 #popover {
@@ -106,6 +127,7 @@ button {
 .hidden {
     visibility: hidden;
 }
+
 
 
 
