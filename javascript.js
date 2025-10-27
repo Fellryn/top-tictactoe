@@ -99,12 +99,23 @@ const gameController = (function() {
         gameBoard.resetBoardState();
         domInteraction.render();
         gameIsOver = false;
+        domInteraction.updatePlayerBoards();
+    }
+
+    function getPlayerOne() {
+        return player1;
+    }
+
+    function getPlayerTwo() {
+        return player2;
     }
 
     return {
         setPlayerNames,
         placePiece,
-        createNewGame
+        createNewGame,
+        getPlayerOne,
+        getPlayerTwo
     }
 })();
 
@@ -114,11 +125,15 @@ const domInteraction = (function() {
     let gameBoardContainer;
     let form;
     let restartButton;
+    let playerOneBoard;
+    let playerTwoBoard;
 
     function cacheDom() {
         gameBoardContainer = document.querySelector("#gameBoardContainer");
         form = document.querySelector("form");
         restartButton = document.querySelector("#restartButton");
+        playerOneBoard = document.querySelector("#playerOneBoard");
+        playerTwoBoard = document.querySelector("#playerTwoBoard")
     }
 
     function render() {
@@ -126,15 +141,21 @@ const domInteraction = (function() {
         for (let i = 0; i < gameBoard.gameBoardArr.length; i++) {
             gameBoardContainer.innerHTML += `<div data-id="${i}" class="cell">${gameBoard.gameBoardArr[i]}</div>`;
         }
-        
-        // for (let cell of gameBoard.gameBoardArr) {
-        //     gameBoardContainer.innerHTML += `<div data-id="${gameBoard.gameBoardArr.indexOf(cell)}">${cell}</div>`
-        // }
     }
 
-    // function cacheCells() {
-    //     cells = gameBoardContainer.querySelectorAll(".cell");
-    // }
+    function updatePlayerBoards() {
+        playerOneBoard.classList.remove("hidden");
+        playerTwoBoard.classList.remove("hidden");
+
+        let playerOneObj = gameController.getPlayerOne();
+        let playerTwoObj = gameController.getPlayerTwo();
+
+        playerOneBoard.querySelector("h3").textContent = playerOneObj.name;
+        playerOneBoard.querySelector("p:last-child").textContent = "Score: " + playerOneObj.score;
+
+        playerTwoBoard.querySelector("h3").textContent = playerTwoObj.name;
+        playerTwoBoard.querySelector("p:last-child").textContent = "Score: " + playerTwoObj.score;
+    }
 
     function setRestartButton(active) {
         if (active === true) {
@@ -148,6 +169,7 @@ const domInteraction = (function() {
         restartButton.addEventListener('click', () => {
             gameController.createNewGame();
             setRestartButton(false);
+            updatePlayerBoards();
         });
     }
 
@@ -162,6 +184,7 @@ const domInteraction = (function() {
             gameController.setPlayerNames(data.playerOneName, data.playerTwoName);
             render();
             bindGameBoard();
+            updatePlayerBoards();
         });
     }
 
@@ -182,6 +205,7 @@ const domInteraction = (function() {
         render,
         bindGameBoard,
         setRestartButton,
+        updatePlayerBoards
     }
 })();
 

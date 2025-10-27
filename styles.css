@@ -22,6 +22,14 @@ h1 {
 
 #gameArea {
     display: flex;
+    justify-content: center;
+}
+
+#playerOneBoard,
+#playerTwoBoard {
+    text-align: center;
+    padding: 0px 16px;
+    max-width: 200px;
 }
 
 dialog {
