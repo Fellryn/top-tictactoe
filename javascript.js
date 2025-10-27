@@ -99,6 +99,45 @@ const gameController = (function() {
 })();
 
 const domInteraction = (function() {
-    
+    let gameBoardContainer;
+    // let cells;
+
+    function cacheDom() {
+        gameBoardContainer = document.querySelector("#gameBoardContainer");
+    }
+
+    function render() {
+        gameBoardContainer.innerHTML = "";
+        for (let i = 0; i < gameBoard.gameBoardArr.length; i++) {
+            gameBoardContainer.innerHTML += `<div data-id="${i}" class="cell">${gameBoard.gameBoardArr[i]}</div>`;
+        }
+
+        // for (let cell of gameBoard.gameBoardArr) {
+        //     gameBoardContainer.innerHTML += `<div data-id="${gameBoard.gameBoardArr.indexOf(cell)}">${cell}</div>`
+        // }
+    }
+
+    // function cacheCells() {
+    //     cells = gameBoardContainer.querySelectorAll(".cell");
+    // }
+
+    function bindEvents() {
+        gameBoardContainer.addEventListener('click', (e) => {
+            const cell = e.target.closest('.cell');
+            if (!cell) return;
+            gameController.placePiece(cell.dataset.id);
+            render();
+        });
+    }
+
+    cacheDom();
+    render();
+    // cacheCells();
+    bindEvents();
+
+    return {
+        render,
+        cells
+    }
 })();
 

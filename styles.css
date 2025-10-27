@@ -1,4 +1,12 @@
 #gameBoardContainer {
     display: grid;
-    grid: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    grid: 100px 100px 100px / 100px 100px 100px;
+    justify-items: center;
+    margin: 0 auto;
+}
+
+.cell {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
 }
