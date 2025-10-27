@@ -18,11 +18,13 @@ function createPlayer(name, playerNumber) {
     return {name, playerNumber, score};
 }
 
+
 const gameController = (function() {
     let player1;
     let player2;
     let currentPlayer;
     let turns = 0;
+    let gameIsOver = false;
 
     console.log(gameBoard);
 
@@ -41,6 +43,9 @@ const gameController = (function() {
     }
 
     function placePiece(pos) {
+        if (gameIsOver) {
+            return;
+        }
         if (pos > gameBoard.gameBoardArr.length || pos <= -1) {
             console.log("This is not a valid position");
             return;
@@ -80,10 +85,10 @@ const gameController = (function() {
 
         if (winner !== undefined) {
             console.log(`The winner is: ${winner === "x" ? "Player one!" : "Player two!"}`);
-            createNewGame();
+            gameIsOver = true;
         } else if (turns > 7) {
             console.log("Draw!")
-            createNewGame();
+            gameIsOver = true();
         }
     }
 
@@ -100,10 +105,11 @@ const gameController = (function() {
 
 const domInteraction = (function() {
     let gameBoardContainer;
-    // let cells;
+    let form;
 
     function cacheDom() {
         gameBoardContainer = document.querySelector("#gameBoardContainer");
+        form = document.querySelector("form");
     }
 
     function render() {
@@ -111,7 +117,7 @@ const domInteraction = (function() {
         for (let i = 0; i < gameBoard.gameBoardArr.length; i++) {
             gameBoardContainer.innerHTML += `<div data-id="${i}" class="cell">${gameBoard.gameBoardArr[i]}</div>`;
         }
-
+        
         // for (let cell of gameBoard.gameBoardArr) {
         //     gameBoardContainer.innerHTML += `<div data-id="${gameBoard.gameBoardArr.indexOf(cell)}">${cell}</div>`
         // }
@@ -121,22 +127,37 @@ const domInteraction = (function() {
     //     cells = gameBoardContainer.querySelectorAll(".cell");
     // }
 
-    function bindEvents() {
+    function bindPlayerDialog () {
+        form.addEventListener('submit', (e) => {
+            const data = Object.fromEntries(new FormData(form));
+            if (data.playerOneName === "" || data.playerTwoName === "") {
+                alert("Please enter a name for both players.");
+                e.preventDefault();
+                return;
+            }
+            gameController.setPlayerNames(data.playerOneName, data.playerTwoName);
+            render();
+            bindGameBoard();
+        });
+    }
+
+    function bindGameBoard() {
         gameBoardContainer.addEventListener('click', (e) => {
             const cell = e.target.closest('.cell');
             if (!cell) return;
             gameController.placePiece(cell.dataset.id);
             render();
         });
+
+
     }
 
     cacheDom();
-    render();
-    // cacheCells();
-    bindEvents();
+    bindPlayerDialog();
 
     return {
         render,
+        bindGameBoard
     }
 })();
 
