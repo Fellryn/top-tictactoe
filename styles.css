@@ -45,9 +45,10 @@ h1 {
 #playerTwoBoard {
     text-align: center;
     padding: 0px 16px;
-    max-width: 200px;
-
+    width: 100px;
+    max-width: 100px;
 }
+
 
 #playerOneBoard {
     margin-right: 10px;
