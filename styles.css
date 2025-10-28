@@ -81,6 +81,7 @@ h1 {
     border-radius: 5px;
     padding: 5px;
     pointer-events: none;
+    z-index: 10;
 }
 
 .popover-hidden {

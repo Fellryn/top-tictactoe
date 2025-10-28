@@ -220,7 +220,7 @@ const domInteraction = (function() {
         form.addEventListener('submit', (e) => {
             const data = Object.fromEntries(new FormData(form));
             if (data.playerOneName === "" || data.playerTwoName === "") {
-                alert("Please enter a name for both players.");
+                showPopover("Please enter a name for both players.");
                 e.preventDefault();
                 return;
             }
