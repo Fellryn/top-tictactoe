@@ -101,7 +101,7 @@ const gameController = (function() {
             domInteraction.setRestartButton(true);
             domInteraction.updatePlayerBoards();
         } else if (turns > 7) {
-            console.log("Draw!")
+            domInteraction.showPopover("It's a tie!")
             gameIsOver = true;
             domInteraction.setRestartButton(true);
             domInteraction.highlightPlayer(-1);
